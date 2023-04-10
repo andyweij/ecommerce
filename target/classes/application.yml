@@ -48,3 +48,20 @@ spring:
         order_updates: true
         jdbc:
           batch_size: 200
+          
+springboot:
+  datasource:
+    oracle:
+      jdbc-url: jdbc:oracle:thin:@localhost:1521:xe
+      username: LOCAL
+      password: root
+      driverClassName: oracle.jdbc.driver.OracleDriver
+      maximumPoolSize: 2
+      connectionTimeout: 30000
+    mysql:
+      jdbc-url: jdbc:mysql://localhost:3306/local_db
+      username: root
+      password: root1234
+      driverClassName: com.mysql.cj.jdbc.Driver
+      maximumPoolSize: 2
+      connectionTimeout: 30000

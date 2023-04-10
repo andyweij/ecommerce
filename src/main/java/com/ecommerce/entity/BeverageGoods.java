@@ -1,10 +1,17 @@
 package com.ecommerce.entity;
 
-import java.time.LocalDateTime;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.ecommerce.vo.GoodsReportSalesInfo;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -16,7 +23,7 @@ import lombok.experimental.SuperBuilder;
 @Data
 @ToString
 @EqualsAndHashCode(of = {"goodsID"})
-@Table(name = "BEVERAGE_GOODS")
+@Table(name = "BEVERAGE_GOODS" ,schema="LOCAL_DB")
 @Entity
 public class BeverageGoods {
 	
@@ -41,5 +48,16 @@ public class BeverageGoods {
 	
 	@Column(name = "DESCRIPTION")
 	private String DESCRIPTION;
+	
+	@OneToMany(
+			fetch = FetchType.LAZY,
+//			cascade = {CascadeType.MERGE, CascadeType.REMOVE},
+			cascade = {CascadeType.ALL},
+			orphanRemoval = true,
+			mappedBy = "geography"
+		)
+//		@JoinColumn(name="GEOGRAPHY_ID")
+		private List<GoodsReportSalesInfo> goodsReportSalesInfo;
+
 	
 }
