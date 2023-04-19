@@ -7,10 +7,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.ecommerce.vo.GoodsReportSalesInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -49,15 +52,14 @@ public class BeverageGoods {
 	@Column(name = "DESCRIPTION")
 	private String DESCRIPTION;
 	
+	
 	@OneToMany(
 			fetch = FetchType.LAZY,
-//			cascade = {CascadeType.MERGE, CascadeType.REMOVE},
 			cascade = {CascadeType.ALL},
 			orphanRemoval = true,
-			mappedBy = "geography"
-		)
-//		@JoinColumn(name="GEOGRAPHY_ID")
-		private List<GoodsReportSalesInfo> goodsReportSalesInfo;
+			mappedBy = "beverageGoods"
+		)	
+	private List<BeverageOrder> beverageOrders;
 
 	
 }

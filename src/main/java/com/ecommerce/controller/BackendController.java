@@ -49,7 +49,7 @@ public class BackendController {
 		
 		return ResponseEntity.ok(goodsDataInfo);
 	}
-
+//
 //	@ApiOperation(value = "購物網-後臺-商品訂單查詢(一個商品對應到多筆訂單)")
 //	@GetMapping(value = "/queryGoodsSales")
 //	public ResponseEntity<GoodsReportSalesInfo> queryGoodsSales(
