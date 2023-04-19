@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
-Built-By: andyweij
-Build-Jdk: 17.0.6
 Implementation-Title: ecommerce
 Implementation-Version: 0.0.1
+Built-By: Andy Hsu
 Implementation-Vendor-Id: com.training
+Build-Jdk: 1.8.0_361
 Implementation-URL: https://spring.io/projects/spring-boot/ecommerce
 Created-By: Maven Integration for Eclipse
 
