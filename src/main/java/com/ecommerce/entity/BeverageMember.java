@@ -13,7 +13,7 @@
 //@SuperBuilder
 //@NoArgsConstructor
 //@Data
-//@Table(name = "BEVERAGE_MEMBER" ,schema="LOCAL_DB")
+//@Table(name = "BEVERAGE_MEMBER" ,schema="LOCAL")
 //@Entity
 //public class BeverageMember {
 //

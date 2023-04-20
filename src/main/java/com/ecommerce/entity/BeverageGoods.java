@@ -25,14 +25,14 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @Data
 @ToString
-@EqualsAndHashCode(of = {"goodsID"})
-@Table(name = "BEVERAGE_GOODS" ,schema="LOCAL_DB")
+@EqualsAndHashCode(of = {"goodsId"})
+@Table(name = "BEVERAGE_GOODS" ,schema="LOCAL")
 @Entity
 public class BeverageGoods {
 	
 	@Id
 	@Column(name = "GOODS_ID")
-	private String goodsID;
+	private String goodsId;
 	
 	@Column(name = "GOODS_NAME")
 	private String goodsName;

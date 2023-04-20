@@ -1,18 +1,28 @@
 package com.ecommerce.vo;
 
-import lombok.Builder;
-import lombok.Data;
+import javax.annotation.Nullable;
 
-@Builder
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
+
+@SuperBuilder
+@NoArgsConstructor
 @Data
 public class GoodsDataCondition {
 
-	private int goodsID;
-	private  String goodsName;
-	private int startPrice;
-	private int endPrice;
+	private Integer goodsID;
+
+	private String goodsName;
+
+	private Integer startPrice;
+
+	private Integer endPrice;
+
 	private String priceSort;
-	private int quantity;
+
+	private Integer quantity;
+
 	private String status;
 	
 }

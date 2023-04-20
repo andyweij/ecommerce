@@ -10,13 +10,15 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
-@Builder
+@SuperBuilder
+@NoArgsConstructor
 @Data
 @Entity
-@Table(name = "BEVERAGE_ORDER", schema="LOCAL_DB")
+@Table(name = "BEVERAGE_ORDER", schema="LOCAL")
 public class BeverageOrder {
 	@Id
 	@Column(name="ORDER_ID")
@@ -25,13 +27,14 @@ public class BeverageOrder {
 	private String orderDate;
 	@Column(name="CUSTOMER_ID")
 	private String customerId;
-	@Column(name="GOODS_ID")
-	private int goodId;
+
 	@Column(name="GOODS_BUY_PRICE")
 	private int goodsBuyPrice;
 	@Column(name="BUY_QUANTITY")
 	private int buyQuantity;
 	
+	@Column(name="GOODS_ID")
+	private int goodId;
 	
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)	
