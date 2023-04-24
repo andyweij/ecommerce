@@ -49,63 +49,63 @@ public class BackendController {
 		
 		return ResponseEntity.ok(goodsDataInfo);
 	}
-//
-//	@ApiOperation(value = "購物網-後臺-商品訂單查詢(一個商品對應到多筆訂單)")
-//	@GetMapping(value = "/queryGoodsSales")
-//	public ResponseEntity<GoodsReportSalesInfo> queryGoodsSales(
-//			 @RequestParam String startDate, @RequestParam String endDate,  
-//			 @RequestParam int currentPageNo, @RequestParam int pageDataSize, @RequestParam int pagesIconSize) {
-//		/*
-//		 startDate:2022/09/19
-//		 endDate:2022/09/19
-//		 currentPageNo:1
-//		 pageDataSize: 3
-//		 pagesIconSize: 3
-//		 */	
-//		GoodsSalesReportCondition condition = GoodsSalesReportCondition.builder().startDate(startDate).endDate(endDate).build();
-//		
-//		GenericPageable genericPageable = GenericPageable.builder().currentPageNo(currentPageNo)
-//				.pageDataSize(pageDataSize).pagesIconSize(pagesIconSize).build();
-//		
-//		GoodsReportSalesInfo goodsReportSalesInfo = backendService.queryGoodsSales(condition, genericPageable);
-//		
-//		return ResponseEntity.ok(goodsReportSalesInfo);
-//	}
-//	
-//	@ApiOperation(value = "購物網-後臺-商品新增作業")
-//	@PostMapping(value = "/createGoods", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-//	public ResponseEntity<BeverageGoods> createGoods(@ModelAttribute GoodsVo goodsVo) throws IOException {
-//		
-//		BeverageGoods goods = backendService.createGoods(goodsVo);
-//		
-//		return ResponseEntity.ok(goods);
-//	}
-//	
-//	@ApiOperation(value = "購物網-後臺-商品維護作業-查詢全部商品清單")
-//	@GetMapping(value = "/queryAllGoods")
-//	public ResponseEntity<List<BeverageGoods>> queryAllGoods() {
-//		
-//		List<BeverageGoods> goodsDatas = backendService.queryAllGoods();
-//		
-//		return ResponseEntity.ok(goodsDatas);
-//	}
-//	
-//	@ApiOperation(value = "購物網-後臺-商品維護作業-查詢單一商品資料")
-//	@GetMapping(value = "/queryGoodsByID")
-//	public ResponseEntity<BeverageGoods> queryGoodsByID(@RequestParam long goodsID){
-//		
-//		BeverageGoods goodsData = backendService.queryGoodsByID(goodsID);
-//		
-//		return ResponseEntity.ok(goodsData);
-//	}
-//	
-//	@ApiOperation(value = "購物網-後臺-商品維護作業-更新商品資料")
-//	@PutMapping(value = "/updateGoods", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-//	public ResponseEntity<BeverageGoods> updateGoods(@ModelAttribute GoodsVo goodsVo) throws IOException {
-//		
-//		BeverageGoods goods = backendService.updateGoods(goodsVo);
-//		
-//		return ResponseEntity.ok(goods);
-//	}
+
+	@ApiOperation(value = "購物網-後臺-商品訂單查詢(一個商品對應到多筆訂單)")
+	@GetMapping(value = "/queryGoodsSales")
+	public ResponseEntity<GoodsReportSalesInfo> queryGoodsSales(
+			 @RequestParam String startDate, @RequestParam String endDate,  
+			 @RequestParam int currentPageNo, @RequestParam int pageDataSize, @RequestParam int pagesIconSize) {
+		/*
+		 startDate:2022/09/19
+		 endDate:2022/09/19
+		 currentPageNo:1
+		 pageDataSize: 3
+		 pagesIconSize: 3
+		 */	
+		GoodsSalesReportCondition condition = GoodsSalesReportCondition.builder().startDate(startDate).endDate(endDate).build();
+		
+		GenericPageable genericPageable = GenericPageable.builder().currentPageNo(currentPageNo)
+				.pageDataSize(pageDataSize).pagesIconSize(pagesIconSize).build();
+		
+		GoodsReportSalesInfo goodsReportSalesInfo = backendService.queryGoodsSales(condition, genericPageable);
+		
+		return ResponseEntity.ok(goodsReportSalesInfo);
+	}
+	
+	@ApiOperation(value = "購物網-後臺-商品新增作業")
+	@PostMapping(value = "/createGoods", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+	public ResponseEntity<BeverageGoods> createGoods(@ModelAttribute GoodsVo goodsVo) throws IOException {
+		
+		BeverageGoods goods = backendService.createGoods(goodsVo);
+		
+		return ResponseEntity.ok(goods);
+	}
+	
+	@ApiOperation(value = "購物網-後臺-商品維護作業-查詢全部商品清單")
+	@GetMapping(value = "/queryAllGoods")
+	public ResponseEntity<List<BeverageGoods>> queryAllGoods() {
+		
+		List<BeverageGoods> goodsDatas = backendService.queryAllGoods();
+		
+		return ResponseEntity.ok(goodsDatas);
+	}
+	
+	@ApiOperation(value = "購物網-後臺-商品維護作業-查詢單一商品資料")
+	@GetMapping(value = "/queryGoodsByID")
+	public ResponseEntity<BeverageGoods> queryGoodsByID(@RequestParam long goodsID){
+		
+		BeverageGoods goodsData = backendService.queryGoodsByID(goodsID);
+		
+		return ResponseEntity.ok(goodsData);
+	}
+	
+	@ApiOperation(value = "購物網-後臺-商品維護作業-更新商品資料")
+	@PutMapping(value = "/updateGoods", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+	public ResponseEntity<BeverageGoods> updateGoods(@ModelAttribute GoodsVo goodsVo) throws IOException {
+		
+		BeverageGoods goods = backendService.updateGoods(goodsVo);
+		
+		return ResponseEntity.ok(goods);
+	}
 	
 }
