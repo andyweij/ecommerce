@@ -1,7 +1,5 @@
 package com.ecommerce.dao;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +11,10 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
 import com.ecommerce.entity.BeverageGoods;
 import com.ecommerce.vo.GenericPageable;
 import com.ecommerce.vo.GoodsDataCondition;
@@ -28,6 +29,7 @@ public class BackEndDao {
 		 	CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 	        CriteriaQuery<BeverageGoods> cq = cb.createQuery(BeverageGoods.class);
 	        Root<BeverageGoods> beverageGoods = cq.from(BeverageGoods.class);
+	        
 //	        SELECT * FROM ( SELECT ROWNUM ROW_NUM,BG.* FROM beverage_goods BG WHERE goods_id 
 //	        like '%1%' and  lower(goods_name) like lower('%a%') and status = 1 and QUANTITY < 20 
 //	        and price between 10 and 150 order by price desc ) 
@@ -38,8 +40,9 @@ public class BackEndDao {
 	        condi.add(goodsId);
 	        }
 	        if(null!=condition.getGoodsName()) {
-	        Predicate goodsName = cb.like(beverageGoods.get("goodsName"), "%"+condition.getGoodsName()+"%");
+	        Predicate goodsName = cb.like(cb.lower(beverageGoods.get("goodsName")), "%"+condition.getGoodsName().toLowerCase()+"%");
 	        condi.add(goodsName);
+	        
 	        }
 	        if(null!=condition.getStartPrice()) {
 	        Predicate startPrice = cb.greaterThan(beverageGoods.get("goodsPrice"), condition.getStartPrice());
@@ -49,28 +52,37 @@ public class BackEndDao {
 	        Predicate endPrice = cb.lessThan(beverageGoods.get("goodsPrice"), condition.getEndPrice());
 	        condi.add(endPrice);
 	        }
-	        if(null!=condition.getStatus()) {
+	       
 	        Predicate status = cb.equal(beverageGoods.get("status"), condition.getStatus());
 	        condi.add(status);
-
+	        
+	        if(null!=condition.getQuantity()) {
+	        Predicate quantity = cb.lessThan(beverageGoods.get("goodsQuantity"), condition.getQuantity());
+	        condi.add(quantity);
 	        }
+	        
 	        Predicate restriction=null;
 	        switch(condi.size()) {
 	        case 1:{
-	        	restriction=condi.get(1);
+	        	restriction=condi.get(0);
 	        	break;
 	        }
 	        case 2:{
-	        	restriction=cb.and(condi.get(1),condi.get(2));
+	        	restriction=cb.and(condi.get(0),condi.get(1));
+	        	break;
 	        }
 	        case 3:{
-	        	restriction=cb.and(condi.get(1),condi.get(2),condi.get(3));
+	        	restriction=cb.and(condi.get(0),condi.get(1),condi.get(2));
+	        	break;
 	        }
 	        case 4:{
-	        	restriction=cb.and(condi.get(1),condi.get(2),condi.get(3),condi.get(4));
+	        	restriction=cb.and(condi.get(0),condi.get(1),condi.get(2),condi.get(3));
+	        	break;
 	        }
 	        case 5:{
-	        	restriction=cb.and(condi.get(1),condi.get(2),condi.get(3),condi.get(4),condi.get(5));
+	        	restriction=cb.and(condi.get(0),condi.get(1),condi.get(2),condi.get(3),condi.get(4));
+	        	
+	        	break;
 	        }
 	        }
 	        // 組合查尋條件
@@ -79,13 +91,15 @@ public class BackEndDao {
 	        Order order = cb.desc(beverageGoods.get("goodsPrice"));        
 	        // 放入全部查詢條件
 	        // PS:select(storeInfo)可省略
-	        cq.select(beverageGoods).where(restriction).orderBy(order);        
+	        cq.select(beverageGoods).where(restriction).orderBy(order);
+	        
 	        
 	        // 執行查詢
-	        TypedQuery<BeverageGoods> query = entityManager.createQuery(cq);
-	        GoodsDataInfo goodsDataInfo=GoodsDataInfo.builder().beverageGoods(query.getResultList()).build();
-	        
+	        TypedQuery<BeverageGoods> query = entityManager.createQuery(cq).setFirstResult(genericPageable.getCurrentPageNo()).setMaxResults(genericPageable.getPageDataSize());
+	        GoodsDataInfo goodsDataInfo=GoodsDataInfo.builder().beverageGoods(query.getResultList()).genericPageable(genericPageable).build();
 	        return goodsDataInfo;
 
 	}
+
+	
 }

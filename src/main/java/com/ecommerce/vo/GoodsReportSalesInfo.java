@@ -1,5 +1,7 @@
 package com.ecommerce.vo;
 
+import java.util.List;
+
 import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
@@ -8,19 +10,7 @@ import lombok.ToString;
 @Data
 @ToString
 public class GoodsReportSalesInfo {
-	
-
-	private int orderId;
-
-	private String orderDate;
-
-	private String customerId;
-
-	private int goodId;
-
-	private int goodsBuyPrice;
-
-	private int buyQuantity;
-	
-	
+		
+	List<GoodsReportSales> goodsReportSalesList;
+	GenericPageable genericPageable;
 }

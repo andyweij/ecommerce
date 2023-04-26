@@ -6,5 +6,6 @@ import lombok.Data;
 @Builder
 @Data
 public class GoodsSalesReportCondition {
-
+	private String startDate;
+	private String endDate;
 }
