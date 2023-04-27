@@ -6,13 +6,16 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.ecommerce.vo.GoodsReportSalesInfo;
+import com.ecommerce.vo.GoodsOrderListVo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
@@ -31,8 +34,10 @@ import lombok.experimental.SuperBuilder;
 public class BeverageGoods {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BEVERAGE_GOODS_SEQ")
+    @SequenceGenerator(name = "BEVERAGE_GOODS_SEQ", sequenceName = "BEVERAGE_GOODS_SEQ", allocationSize = 1)
 	@Column(name = "GOODS_ID")
-	private String goodsId;
+	private Long goodsId;
 	
 	@Column(name = "GOODS_NAME")
 	private String goodsName;

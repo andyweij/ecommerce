@@ -1,10 +1,18 @@
 package com.ecommerce.vo;
 
-import lombok.Builder;
+import org.springframework.web.multipart.MultipartFile;
 import lombok.Data;
 
-@Builder
+
 @Data
 public class GoodsVo {
 
+	
+	private String goodsName;
+	private int goodsPrice;
+	private int goodsQuantity;
+	private MultipartFile file;
+	private String goodsImageName;	
+	private String status;	
+	private String DESCRIPTION;
 }

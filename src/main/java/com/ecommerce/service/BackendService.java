@@ -1,13 +1,16 @@
 package com.ecommerce.service;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ecommerce.dao.BackEndDao;
 import com.ecommerce.dao.BeverageGoodsJpaDao;
@@ -16,9 +19,10 @@ import com.ecommerce.entity.BeverageGoods;
 import com.ecommerce.vo.GenericPageable;
 import com.ecommerce.vo.GoodsDataCondition;
 import com.ecommerce.vo.GoodsDataInfo;
-import com.ecommerce.vo.GoodsReportSales;
-import com.ecommerce.vo.GoodsReportSalesInfo;
+import com.ecommerce.vo.GoodsOrderListVo;
+import com.ecommerce.vo.GoodsOrderVo;
 import com.ecommerce.vo.GoodsSalesReportCondition;
+import com.ecommerce.vo.GoodsVo;
 
 @Service
 public class BackendService {
@@ -47,14 +51,32 @@ public class BackendService {
 	}
 	
 	
-	public GoodsReportSalesInfo queryGoodsSales(GoodsSalesReportCondition condition, GenericPageable genericPageable) {
+	public GoodsOrderListVo queryGoodsSales(GoodsSalesReportCondition condition, GenericPageable genericPageable) {
 		
 		String startDate= condition.getStartDate();
 		String endDate= condition.getEndDate();
-		List<GoodsReportSales> queryGoodsSalesList=beverageOrderJpaDao.queryGoodsSales(startDate,endDate);
-		GoodsReportSalesInfo queryGoodsSales=GoodsReportSalesInfo.builder().goodsReportSalesList(queryGoodsSalesList).build();
+		List<GoodsOrderVo> queryGoodsSalesList=beverageOrderJpaDao.queryGoodsSales(startDate,endDate);
+		GoodsOrderListVo queryGoodsSales=GoodsOrderListVo.builder().goodsReportSalesList(queryGoodsSalesList).genericPageable(genericPageable).build();
 		
 		return queryGoodsSales;
 	}
-	
+	public BeverageGoods createGoods( GoodsVo goodsVo) throws IOException{
+		BeverageGoods geverageGoods=BeverageGoods.builder().goodsName(goodsVo.getGoodsName()).
+				goodsPrice(goodsVo.getGoodsPrice()).goodsQuantity(goodsVo.getGoodsQuantity()).
+				DESCRIPTION(goodsVo.getDESCRIPTION()).goodsImageName(goodsVo.getGoodsImageName()).status(goodsVo.getStatus()).build();
+		backEndJpaDao.save(geverageGoods);
+		MultipartFile file = goodsVo.getFile();
+		Files.copy(file.getInputStream(), Paths.get("/home/VendingMachine/DrinksImage").resolve(goodsVo.getGoodsImageName()));
+		
+		return geverageGoods;
+	}
+	public BeverageGoods queryGoodsByID(Long goodsID) {
+		
+		BeverageGoods Goods=new BeverageGoods();
+		Optional<BeverageGoods> beverageGoods=backEndJpaDao.findById(goodsID);
+		if(beverageGoods.isPresent()) {
+			Goods = beverageGoods.get();
+		}
+		return Goods;
+	}
 }

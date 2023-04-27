@@ -9,8 +9,8 @@ import lombok.ToString;
 @Builder
 @Data
 @ToString
-public class GoodsReportSalesInfo {
+public class GoodsOrderListVo {
 		
-	List<GoodsReportSales> goodsReportSalesList;
+	List<GoodsOrderVo> goodsReportSalesList;
 	GenericPageable genericPageable;
 }
