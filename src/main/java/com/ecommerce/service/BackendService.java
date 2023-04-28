@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ecommerce.dao.BackEndDao;
@@ -39,7 +40,7 @@ public class BackendService {
 	public GoodsDataInfo queryGoodsData(GoodsDataCondition condition, GenericPageable genericPageable) {
 
 		GoodsDataInfo goodsDataInfo = backEndDao.queryGoodsDatabyKey(condition, genericPageable);
-
+		goodsDataInfo.getGenericPageable().setPageDataSize(goodsDataInfo.getBeverageGoods().size());
 		return goodsDataInfo;
 	}
 
@@ -63,7 +64,7 @@ public class BackendService {
 	public BeverageGoods createGoods( GoodsVo goodsVo) throws IOException{
 		BeverageGoods geverageGoods=BeverageGoods.builder().goodsName(goodsVo.getGoodsName()).
 				goodsPrice(goodsVo.getGoodsPrice()).goodsQuantity(goodsVo.getGoodsQuantity()).
-				DESCRIPTION(goodsVo.getDESCRIPTION()).goodsImageName(goodsVo.getGoodsImageName()).status(goodsVo.getStatus()).build();
+				DESCRIPTION(goodsVo.getDescription()).goodsImageName(goodsVo.getGoodsImageName()).status(goodsVo.getStatus()).build();
 		backEndJpaDao.save(geverageGoods);
 		MultipartFile file = goodsVo.getFile();
 		Files.copy(file.getInputStream(), Paths.get("/home/VendingMachine/DrinksImage").resolve(goodsVo.getGoodsImageName()));
@@ -78,5 +79,23 @@ public class BackendService {
 			Goods = beverageGoods.get();
 		}
 		return Goods;
+	}
+	
+	@Transactional
+	public BeverageGoods updateGoods(GoodsVo goodsVo) {
+		Optional<BeverageGoods> goodsInfo = backEndJpaDao.findById(goodsVo.getGoodsID());
+		BeverageGoods beverageGoods=null;
+		if(goodsInfo.isPresent()) {
+			beverageGoods=goodsInfo.get();
+			beverageGoods.setGoodsName(goodsVo.getGoodsName());
+			beverageGoods.setGoodsPrice(goodsVo.getGoodsPrice());
+			beverageGoods.setGoodsQuantity(goodsVo.getGoodsQuantity());
+			beverageGoods.setStatus(goodsVo.getStatus());
+			beverageGoods.setDESCRIPTION(goodsVo.getDescription());
+			beverageGoods.setGoodsImageName(goodsVo.getGoodsImageName());
+		}
+		
+		
+		return beverageGoods;
 	}
 }

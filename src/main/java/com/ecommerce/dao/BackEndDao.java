@@ -95,8 +95,12 @@ public class BackEndDao {
 	        
 	        
 	        // 執行查詢
+	        TypedQuery<BeverageGoods> queryTotalgoodscount =entityManager.createQuery(cq);
+	        int goodscount=GoodsDataInfo.builder().beverageGoods(queryTotalgoodscount.getResultList()).build().getBeverageGoods().size();
+	        genericPageable.setPagination(genericPageable.pagination(genericPageable, goodscount));
 	        TypedQuery<BeverageGoods> query = entityManager.createQuery(cq).setFirstResult(genericPageable.getCurrentPageNo()).setMaxResults(genericPageable.getPageDataSize());
 	        GoodsDataInfo goodsDataInfo=GoodsDataInfo.builder().beverageGoods(query.getResultList()).genericPageable(genericPageable).build();
+	        
 	        return goodsDataInfo;
 
 	}

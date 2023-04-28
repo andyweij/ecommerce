@@ -74,13 +74,31 @@
 		</dependency>
 
 		
-		<!-- swagger ui -->
+		<!-- swagger ui-->
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-boot-starter</artifactId>
 			<version>3.0.0</version>
 		</dependency>
-
+		 
+		<!-- openapi-ui 支援 swagger 可選擇 RequestBody multipart/form-data 	
+		<dependency>
+		    <groupId>io.springfox</groupId>
+		    <artifactId>springfox-swagger2</artifactId>
+		    <version>2.9.2</version>
+		</dependency>
+		<dependency>
+		    <groupId>io.springfox</groupId>
+		    <artifactId>springfox-swagger-ui</artifactId>
+		    <version>2.9.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>1.6.6</version>
+		</dependency>
+	
+-->
 		<!-- log4j2 start -->
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>

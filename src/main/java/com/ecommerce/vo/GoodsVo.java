@@ -1,12 +1,15 @@
 package com.ecommerce.vo;
 
 import org.springframework.web.multipart.MultipartFile;
+
 import lombok.Data;
 
 
 @Data
 public class GoodsVo {
-
+	
+//	@ApiModelProperty(accessMode = AccessMode.READ_ONLY)
+	private long goodsID;
 	
 	private String goodsName;
 	private int goodsPrice;
@@ -14,5 +17,5 @@ public class GoodsVo {
 	private MultipartFile file;
 	private String goodsImageName;	
 	private String status;	
-	private String DESCRIPTION;
-}
+	private String description;
+}				   

@@ -104,13 +104,13 @@ public class BackendController {
 		return ResponseEntity.ok(goodsData);
 	}
 	
-//	@ApiOperation(value = "購物網-後臺-商品維護作業-更新商品資料")
-//	@PutMapping(value = "/updateGoods", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-//	public ResponseEntity<BeverageGoods> updateGoods(@ModelAttribute GoodsVo goodsVo) throws IOException {
-//		
-//		BeverageGoods goods = backendService.updateGoods(goodsVo);
-//		
-//		return ResponseEntity.ok(goods);
-//	}
+	@ApiOperation(value = "購物網-後臺-商品維護作業-更新商品資料")
+	@PostMapping(value = "/updateGoods", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+	public ResponseEntity<BeverageGoods> updateGoods(@ModelAttribute GoodsVo goodsVo) throws IOException {
+		
+		BeverageGoods goods = backendService.updateGoods(goodsVo);
+		
+		return ResponseEntity.ok(goods);
+	}
 	
 }
