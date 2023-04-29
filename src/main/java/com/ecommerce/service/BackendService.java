@@ -66,9 +66,11 @@ public class BackendService {
 				goodsPrice(goodsVo.getGoodsPrice()).goodsQuantity(goodsVo.getGoodsQuantity()).
 				DESCRIPTION(goodsVo.getDescription()).goodsImageName(goodsVo.getGoodsImageName()).status(goodsVo.getStatus()).build();
 		backEndJpaDao.save(geverageGoods);
+		if(null!=goodsVo.getFile()) {
 		MultipartFile file = goodsVo.getFile();
-		Files.copy(file.getInputStream(), Paths.get("/home/VendingMachine/DrinksImage").resolve(goodsVo.getGoodsImageName()));
 		
+		Files.copy(file.getInputStream(), Paths.get("/home/VendingMachine/DrinksImage").resolve(goodsVo.getGoodsImageName()));
+		}
 		return geverageGoods;
 	}
 	public BeverageGoods queryGoodsByID(Long goodsID) {
@@ -84,6 +86,7 @@ public class BackendService {
 	@Transactional
 	public BeverageGoods updateGoods(GoodsVo goodsVo) {
 		Optional<BeverageGoods> goodsInfo = backEndJpaDao.findById(goodsVo.getGoodsID());
+		
 		BeverageGoods beverageGoods=null;
 		if(goodsInfo.isPresent()) {
 			beverageGoods=goodsInfo.get();

@@ -12,7 +12,6 @@ import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.ecommerce.entity.BeverageGoods;
@@ -36,7 +35,7 @@ public class BackEndDao {
 //	        WHERE ROW_NUM >=0 AND ROW_NUM < 6;
 	        List<Predicate> condi=new ArrayList<>();
 	        if(null!=condition.getGoodsID()) {
-	        Predicate goodsId = cb.like(beverageGoods.get("goodsId"),  "%"+condition.getGoodsID().toString()+"%");
+	        Predicate goodsId = cb.like(beverageGoods.get("goodsId").as(String.class),  "%"+condition.getGoodsID()+"%");
 	        condi.add(goodsId);
 	        }
 	        if(null!=condition.getGoodsName()) {
@@ -98,7 +97,7 @@ public class BackEndDao {
 	        TypedQuery<BeverageGoods> queryTotalgoodscount =entityManager.createQuery(cq);
 	        int goodscount=GoodsDataInfo.builder().beverageGoods(queryTotalgoodscount.getResultList()).build().getBeverageGoods().size();
 	        genericPageable.setPagination(genericPageable.pagination(genericPageable, goodscount));
-	        TypedQuery<BeverageGoods> query = entityManager.createQuery(cq).setFirstResult(genericPageable.getCurrentPageNo()).setMaxResults(genericPageable.getPageDataSize());
+	        TypedQuery<BeverageGoods> query = entityManager.createQuery(cq).setFirstResult(genericPageable.getCurrentPageNo()-1).setMaxResults(genericPageable.getPageDataSize());
 	        GoodsDataInfo goodsDataInfo=GoodsDataInfo.builder().beverageGoods(query.getResultList()).genericPageable(genericPageable).build();
 	        
 	        return goodsDataInfo;

@@ -37,7 +37,7 @@ public class BeverageGoods {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BEVERAGE_GOODS_SEQ")
     @SequenceGenerator(name = "BEVERAGE_GOODS_SEQ", sequenceName = "BEVERAGE_GOODS_SEQ", allocationSize = 1)
 	@Column(name = "GOODS_ID")
-	private Integer goodsId;
+	private Long goodsId;
 	
 	@Column(name = "GOODS_NAME")
 	private String goodsName;
