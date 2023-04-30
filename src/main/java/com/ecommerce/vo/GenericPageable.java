@@ -39,10 +39,15 @@ public class GenericPageable {
 				for(int i=genericPageable.getCurrentPageNo();i<=totalPages;i++) {
 					pagination.add(i);
 				}
-			}
-		
-		
+			}		
 		return pagination;
 	}
-
+	public List<Integer> rownum(GenericPageable genericPageable){
+		List<Integer> rownum=new ArrayList<>();
+		int EndNo=genericPageable.getCurrentPageNo()*genericPageable.getPageDataSize();
+		int StartNo=EndNo-(genericPageable.getPageDataSize()-1);
+		rownum.add(StartNo);
+		rownum.add(EndNo);		
+		return rownum;
+	}
 }

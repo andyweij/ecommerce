@@ -85,9 +85,13 @@ public class BackEndDao {
 	        }
 	        }
 	        // 組合查尋條件
-	        	     
+	        Order order=null;
 	      	// 排序  ORDER BY
-	        Order order = cb.desc(beverageGoods.get("goodsPrice"));        
+	        if(condition.getStatus()=="1") {
+	        	order = cb.desc(beverageGoods.get("goodsPrice")); 
+	        }else {
+	        	order = cb.asc(beverageGoods.get("goodsPrice"));
+	        }
 	        // 放入全部查詢條件
 	        // PS:select(storeInfo)可省略
 	        cq.select(beverageGoods).where(restriction).orderBy(order);

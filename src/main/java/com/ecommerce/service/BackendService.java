@@ -55,9 +55,14 @@ public class BackendService {
 	public GoodsOrderListVo queryGoodsSales(GoodsSalesReportCondition condition, GenericPageable genericPageable) {
 		
 		String startDate= condition.getStartDate();
-		String endDate= condition.getEndDate();
-		List<GoodsOrderVo> queryGoodsSalesList=beverageOrderJpaDao.queryGoodsSales(startDate,endDate);
+		String endDate= condition.getEndDate();		
+		int totalPages=(int) Math.ceil((double) (beverageOrderJpaDao.queryGoodsSales(startDate,endDate)).size()/genericPageable.getPageDataSize());
+		List<Integer> rownumList=genericPageable.rownum(genericPageable);
+		List<Integer> pagination=genericPageable.pagination(genericPageable,totalPages);
+		genericPageable.setPagination(pagination);
+		List<GoodsOrderVo> queryGoodsSalesList=beverageOrderJpaDao.queryGoodsSalespages(startDate,endDate,rownumList.get(0),rownumList.get(1));
 		GoodsOrderListVo queryGoodsSales=GoodsOrderListVo.builder().goodsReportSalesList(queryGoodsSalesList).genericPageable(genericPageable).build();
+		
 		
 		return queryGoodsSales;
 	}
