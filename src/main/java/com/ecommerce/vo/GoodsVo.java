@@ -3,8 +3,9 @@ package com.ecommerce.vo;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-
+@EqualsAndHashCode(of = {"goodsID"} ) 
 @Data
 public class GoodsVo {
 	

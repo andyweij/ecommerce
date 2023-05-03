@@ -32,29 +32,29 @@ public class SwaggerConfig {
 	   }
 	   @Bean
 	   public Docket createFrontEndDocket() {
-	      return createDocket("前臺會員中心", frontEndApiInfo(), "com.ecommerce.controller");
+	      return createDocket("前後臺會員中心", ecommerceApiInfo(), "com.ecommerce.controller");
 	   }
 
-	   @Bean
-	   public Docket createBackEndDocket(){
-	      return createDocket("後臺供應商", backEndApiInfo(), "");
-	   }
+//	   @Bean
+//	   public Docket createBackEndDocket(){
+//	      return createDocket("後臺供應商", backEndApiInfo(), "");
+//	   }
 
-	   private ApiInfo frontEndApiInfo() {
+	   private ApiInfo ecommerceApiInfo() {
 	      return new ApiInfoBuilder()
-	             .title("FrontEndSpringBoot API")
-	             .description("FrontEndSpringBoot API 文件")
+	             .title("FrontEnd&BackEnd SpringBoot API")
+	             .description("FrontEnd&BackEnd SpringBoot API 文件")
 	             .version("1.0")
 	             .build();
 	   }  
 
-	   private ApiInfo backEndApiInfo() {
-	      return new ApiInfoBuilder()
-	             .title("BackEndful API")
-	             .description("BackEndRestful API 文件")
-	             .version("1.0")
-	             .build();
-	   }  
+//	   private ApiInfo backEndApiInfo() {
+//	      return new ApiInfoBuilder()
+//	             .title("BackEndful API")
+//	             .description("BackEndRestful API 文件")
+//	             .version("1.0")
+//	             .build();
+//	   }  
 	   public static Predicate<RequestHandler> basePackage(final String basePackage) {
 		      return input -> declaringClass(input).transform(handlerPackage(basePackage)).or(true);
 		   }

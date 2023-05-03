@@ -45,7 +45,7 @@ public class GenericPageable {
 	public List<Integer> rownum(GenericPageable genericPageable){
 		List<Integer> rownum=new ArrayList<>();
 		int EndNo=genericPageable.getCurrentPageNo()*genericPageable.getPageDataSize();
-		int StartNo=EndNo-(genericPageable.getPageDataSize()-1);
+		int StartNo=EndNo-(genericPageable.getPageDataSize());
 		rownum.add(StartNo);
 		rownum.add(EndNo);		
 		return rownum;

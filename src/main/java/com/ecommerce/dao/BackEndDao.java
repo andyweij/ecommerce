@@ -2,7 +2,6 @@ package com.ecommerce.dao;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -11,9 +10,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-
 import org.springframework.stereotype.Repository;
-
 import com.ecommerce.entity.BeverageGoods;
 import com.ecommerce.vo.GenericPageable;
 import com.ecommerce.vo.GoodsDataCondition;
@@ -60,6 +57,7 @@ public class BackEndDao {
 	        condi.add(quantity);
 	        }
 	        
+	        //判斷條件數量
 	        Predicate restriction=null;
 	        switch(condi.size()) {
 	        case 1:{
@@ -80,7 +78,6 @@ public class BackEndDao {
 	        }
 	        case 5:{
 	        	restriction=cb.and(condi.get(0),condi.get(1),condi.get(2),condi.get(3),condi.get(4));
-	        	
 	        	break;
 	        }
 	        }
@@ -89,23 +86,24 @@ public class BackEndDao {
 	      	// 排序  ORDER BY
 	        if(condition.getStatus()=="1") {
 	        	order = cb.desc(beverageGoods.get("goodsPrice")); 
-	        }else {
+	        }else if(condition.getStatus()=="0"){
 	        	order = cb.asc(beverageGoods.get("goodsPrice"));
-	        }
+	        }else {
+	        	order =cb.asc(beverageGoods.get("goodsId"));
+	        }	        
 	        // 放入全部查詢條件
 	        // PS:select(storeInfo)可省略
 	        cq.select(beverageGoods).where(restriction).orderBy(order);
-	        
-	        
+	        	        
 	        // 執行查詢
-	        TypedQuery<BeverageGoods> queryTotalgoodscount =entityManager.createQuery(cq);
-	        int goodscount=GoodsDataInfo.builder().beverageGoods(queryTotalgoodscount.getResultList()).build().getBeverageGoods().size();
-	        genericPageable.setPagination(genericPageable.pagination(genericPageable, goodscount));
-	        TypedQuery<BeverageGoods> query = entityManager.createQuery(cq).setFirstResult(genericPageable.getCurrentPageNo()-1).setMaxResults(genericPageable.getPageDataSize());
+	        TypedQuery<BeverageGoods> queryTotalgoodscount =entityManager.createQuery(cq);//查詢總筆數
+	        int goodsamount=GoodsDataInfo.builder().beverageGoods(queryTotalgoodscount.getResultList()).build().getBeverageGoods().size();
+	        genericPageable.setPagination(genericPageable.pagination(genericPageable, goodsamount));
+	        List<Integer> rownum=genericPageable.rownum(genericPageable);
+	        TypedQuery<BeverageGoods> query = entityManager.createQuery(cq).setFirstResult(rownum.get(0)).setMaxResults(rownum.get(1));//查詢分頁比數
 	        GoodsDataInfo goodsDataInfo=GoodsDataInfo.builder().beverageGoods(query.getResultList()).genericPageable(genericPageable).build();
 	        
 	        return goodsDataInfo;
-
 	}
 
 	
