@@ -60,7 +60,7 @@ public class FrontendController {
 		
 		logger.info("HttpSession checkoutGoods:" + httpSession.getId());
 		logger.info("CheckoutGoods:" + sessionMemberInfo.toString());
-//		
+		
 		CheckoutCompleteInfo checkoutCompleteInfo = frontendService.checkoutGoods(sessionMemberInfo, customer, cartGoods);
 		
 		return ResponseEntity.ok(checkoutCompleteInfo);

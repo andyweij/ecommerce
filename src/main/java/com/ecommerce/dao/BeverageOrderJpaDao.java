@@ -43,7 +43,7 @@ public interface BeverageOrderJpaDao extends JpaRepository<BeverageOrder, Long>{
 			" INNER JOIN BEVERAGE_MEMBER BM ON BO.CUSTOMER_ID = BM.IDENTIFICATION_NO "+
 			" where bo.ORDER_DATE >= to_date( ?1 ,'YYYY-MM-DD HH24:MI:SS') "+
 			" AND bo.ORDER_DATE <= to_date( ?2 , 'YYYY-MM-DD HH24:MI:SS')) "+
-			" where ROW_NUM >= ?3 AND ROW_NUM <= ?4",
+			" where ROW_NUM > ?3 AND ROW_NUM <= ?4",
 			nativeQuery = true)
 	List<GoodsOrderVo> queryGoodsSalespages(String startDate,String endDate,int startNo,int EndNo);
 }

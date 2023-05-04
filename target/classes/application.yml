@@ -3,7 +3,7 @@ server:
   servlet:
     context-path: /ecommerce
     session:
-      timeout: 1m
+      timeout: 30m
   tomcat:
     threads:
       max: 200

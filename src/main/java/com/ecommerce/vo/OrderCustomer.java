@@ -6,6 +6,9 @@ import lombok.Data;
 @Data
 public class OrderCustomer {
 
-	private String customerName;
+	private String cusName;
+	private String mobileNumber;
+	private String homeNumber;
+	private String orderAddr;
 	
 }
