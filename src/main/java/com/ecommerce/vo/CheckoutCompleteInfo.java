@@ -12,7 +12,7 @@ import lombok.Data;
 @Data
 public class CheckoutCompleteInfo {
 	
-	private BeverageMember customer;
+	private OrderCustomer customer;
 	private List<BeverageGoods> orderGoodList;
 
 }

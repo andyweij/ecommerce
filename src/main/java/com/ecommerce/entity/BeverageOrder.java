@@ -1,5 +1,7 @@
 package com.ecommerce.entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -28,8 +30,10 @@ public class BeverageOrder {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BEVERAGE_ORDER_SEQ")
     @SequenceGenerator(name = "BEVERAGE_ORDER_SEQ", sequenceName = "BEVERAGE_ORDER_SEQ", allocationSize = 1)
 	private int orderId;
+	
 	@Column(name="ORDER_DATE")
-	private String orderDate;
+	private Date orderDate;
+	
 	@Column(name="CUSTOMER_ID")
 	private String customerId;
 
@@ -39,7 +43,7 @@ public class BeverageOrder {
 	private int buyQuantity;
 	
 	@Column(name="GOODS_ID")
-	private int goodId;
+	private Long goodId;
 	
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)	
@@ -49,5 +53,5 @@ public class BeverageOrder {
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)	
 	@JoinColumn(name = "CUSTOMER_ID", insertable = false, updatable = false)
-	private BeverageGoods beverageMember;
+	private BeverageMember beverageMember;
 }

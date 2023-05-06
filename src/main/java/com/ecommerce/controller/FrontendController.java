@@ -1,5 +1,8 @@
 package com.ecommerce.controller;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -14,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.ecommerce.dao.BeverageOrderDao;
+import com.ecommerce.entity.BeverageOrder;
 import com.ecommerce.service.FrontendService;
 import com.ecommerce.vo.CheckoutCompleteInfo;
 import com.ecommerce.vo.GenericPageable;
@@ -41,6 +47,9 @@ public class FrontendController {
 	@Autowired
 	private FrontendService frontendService;
 	
+	@Autowired	
+	private BeverageOrderDao beverageOrderDao;
+	
 	@ApiOperation(value = "購物網-前臺-查詢商品列表")
 	@GetMapping(value = "/queryGoodsData")
 	public ResponseEntity<ProductGoodsInfo> queryGoodsData(@RequestParam(required = false) String searchKeyword,
@@ -64,6 +73,35 @@ public class FrontendController {
 		CheckoutCompleteInfo checkoutCompleteInfo = frontendService.checkoutGoods(sessionMemberInfo, customer, cartGoods);
 		
 		return ResponseEntity.ok(checkoutCompleteInfo);
+	}
+	@ApiOperation(value = "購物網-前臺-訂單新增")
+	@PostMapping(value = "/insertSalesReports")
+	public ResponseEntity<CheckoutCompleteInfo> insertSalesReport() {
+		
+		logger.info("HttpSession checkoutGoods:" + httpSession.getId());
+		logger.info("CheckoutGoods:" + sessionMemberInfo.toString());
+		LocalDateTime dateValue = LocalDateTime.now();// your LocalDateTime
+		java.util.Date utilDate=null;
+		String dateFormat = "yyyy-MM-dd'T'HH:mm:ss";
+		DateTimeFormatter dtf1 = DateTimeFormatter.ofPattern(dateFormat);
+		SimpleDateFormat sdf1 = new SimpleDateFormat(dateFormat);
+		try {
+			utilDate = sdf1.parse(dateValue.format(dtf1));
+		} catch (java.text.ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());	
+	
+		BeverageOrder beverageOrder=BeverageOrder.builder()
+				.goodId(5l)
+				.goodsBuyPrice(20)
+				.buyQuantity(1)
+				.orderDate(sqlDate).customerId("A124243295").build();
+		
+		beverageOrderDao.save(beverageOrder);
+		
+		return ResponseEntity.ok(null);
 	}
 
 }

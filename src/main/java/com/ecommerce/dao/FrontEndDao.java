@@ -16,4 +16,6 @@ public interface FrontEndDao extends JpaRepository<BeverageGoods, Long>{
 	
 	@Query(value = "SELECT bs FROM BeverageGoods bs WHERE bs.goodsName like %?1%" )
 	List<BeverageGoods> queryGoodsData(String searchKeyword);
+	
+	
 }
