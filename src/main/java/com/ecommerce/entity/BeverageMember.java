@@ -12,12 +12,14 @@ import javax.persistence.Table;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @Data
 @Table(name = "BEVERAGE_MEMBER" ,schema="LOCAL")
 @Entity
+@ToString
 public class BeverageMember {
 	
 	@Id

@@ -7,7 +7,7 @@ import lombok.ToString;
 @Builder
 @Data
 @ToString
-public class MemberInfo {
+public class MemberInfo{
 	
 	private Boolean isLogin;
 	

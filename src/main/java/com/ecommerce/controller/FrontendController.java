@@ -66,7 +66,15 @@ public class FrontendController {
 	@ApiOperation(value = "購物網-前臺-結帳購物車商品")
 	@PostMapping(value = "/checkoutGoods")
 	public ResponseEntity<CheckoutCompleteInfo> checkoutGoods(@RequestBody OrderCustomer customer) {
-		
+		/*
+		 	{
+			  "customer": {
+			    "cusName": "Andy",
+			    "homeNumber": "0123456789",
+			    "mobileNumber": "0234567890",
+			    "orderAddr": "Taipei,Taiwan"
+			  }
+			  */
 		logger.info("HttpSession checkoutGoods:" + httpSession.getId());
 		logger.info("CheckoutGoods:" + sessionMemberInfo.toString());
 		

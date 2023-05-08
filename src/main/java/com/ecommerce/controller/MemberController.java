@@ -1,6 +1,8 @@
 package com.ecommerce.controller;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.WebApplicationContext;
+
 import com.ecommerce.dao.BeverageMemberDao;
 import com.ecommerce.entity.BeverageMember;
 import com.ecommerce.vo.GoodsVo;
@@ -47,8 +51,9 @@ public class MemberController {
 		logger.info("CheckLogin:" + sessionMemberInfo.toString());
 		
 		MemberInfo member = MemberInfo.builder().isLogin(sessionMemberInfo.getIsLogin()).customerName(sessionMemberInfo.getCustomerName()).build();
-		if(!member.getIsLogin()) {
-			member.setLoginMessage("尚未登入!!");
+		
+		if(!sessionMemberInfo.getIsLogin()) {
+			sessionMemberInfo.setLoginMessage("尚未登入!!");
 		}
 		
 		return ResponseEntity.ok(member);
@@ -71,14 +76,20 @@ public class MemberController {
 		logger.info("Before:" + sessionMemberInfo.toString());
 		
 		BeverageMember beverageMember= memberDao.findBymemberIdAndPwd(member.getIdentificationNo(),member.getCusPassword());
-		if(null==beverageMember.getCustomerName()||null==beverageMember.getPwd()) {
-			sessionMemberInfo=MemberInfo.builder().isLogin(false).identificationNo(member.getIdentificationNo()).loginMessage("輸入密碼錯誤").build();
+		if(null==beverageMember) {
+			sessionMemberInfo.setIsLogin(false);
+			sessionMemberInfo.setIdentificationNo(member.getIdentificationNo());
+			sessionMemberInfo.setLoginMessage("輸入密碼錯誤");
 		}else {
-			sessionMemberInfo=MemberInfo.builder().isLogin(true).customerName(beverageMember.getCustomerName()).loginMessage("登入成功").build();
+			sessionMemberInfo.setIsLogin(true);
+			sessionMemberInfo.setIdentificationNo(beverageMember.getMemberId());
+			sessionMemberInfo.setCustomerName(beverageMember.getCustomerName());
+			sessionMemberInfo.setLoginMessage("登入成功");
 		}
+		MemberInfo memberLoginInfo=MemberInfo.builder().isLogin(sessionMemberInfo.getIsLogin()).loginMessage(sessionMemberInfo.getLoginMessage()).identificationNo(sessionMemberInfo.getIdentificationNo()).customerName(sessionMemberInfo.getCustomerName()).build();
 		logger.info("After:" + sessionMemberInfo.toString());
-		
-		return ResponseEntity.ok(sessionMemberInfo);
+
+		return ResponseEntity.ok(memberLoginInfo);
 	}
 	
 	@ApiOperation(value = "購物網-會員-登出")
@@ -87,9 +98,12 @@ public class MemberController {
 		
 		logger.info("HttpSession logout:" + httpSession.getId());
 		
-		sessionMemberInfo=MemberInfo.builder().isLogin(false).customerName(null).loginMessage("登出成功").build();
-		
-		return ResponseEntity.ok(sessionMemberInfo);
+		sessionMemberInfo.setIsLogin(false);
+		sessionMemberInfo.setCustomerName(null);
+		sessionMemberInfo.setIdentificationNo(null);
+		sessionMemberInfo.setLoginMessage("登出成功");
+		MemberInfo memberLogoutInfo=MemberInfo.builder().isLogin(sessionMemberInfo.getIsLogin()).customerName(sessionMemberInfo.getCustomerName()).loginMessage("登出成功").build();
+		return ResponseEntity.ok(memberLogoutInfo);
 	}
 	
 	@ApiOperation(value = "商品加入購物車")

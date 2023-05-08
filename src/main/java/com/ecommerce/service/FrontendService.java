@@ -92,7 +92,7 @@ private BeverageOrderDao beverageOrderDao;
 		}
 		fronEndDao.saveAll(buyGoodsList);
 		beverageOrderDao.saveAll(beverageOrderList);
-		
+		customer.setCusName(sessionMemberInfo.getCustomerName());
 		CheckoutCompleteInfo checkoutCompleteInfo=CheckoutCompleteInfo.builder()
 				.customer(customer)
 				.orderGoodList(buyGoodsList).build();
