@@ -68,7 +68,6 @@ public class FrontendController {
 	public ResponseEntity<CheckoutCompleteInfo> checkoutGoods(@RequestBody OrderCustomer customer) {
 		/*
 		 	{
-			  "customer": {
 			    "cusName": "Andy",
 			    "homeNumber": "0123456789",
 			    "mobileNumber": "0234567890",
