@@ -45,7 +45,7 @@ public class BeverageOrder {
 	@Column(name="GOODS_ID")
 	private Long goodId;
 	
-	@JsonIgnore
+	
 	@ManyToOne(fetch = FetchType.EAGER)	
 	@JoinColumn(name = "GOODS_ID", insertable = false, updatable = false)
 	private BeverageGoods beverageGoods;

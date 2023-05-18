@@ -81,34 +81,5 @@ public class FrontendController {
 		
 		return ResponseEntity.ok(checkoutCompleteInfo);
 	}
-	@ApiOperation(value = "購物網-前臺-訂單新增")
-	@PostMapping(value = "/insertSalesReports")
-	public ResponseEntity<CheckoutCompleteInfo> insertSalesReport() {
-		
-		logger.info("HttpSession checkoutGoods:" + httpSession.getId());
-		logger.info("CheckoutGoods:" + sessionMemberInfo.toString());
-		LocalDateTime dateValue = LocalDateTime.now();// your LocalDateTime
-		java.util.Date utilDate=null;
-		String dateFormat = "yyyy-MM-dd'T'HH:mm:ss";
-		DateTimeFormatter dtf1 = DateTimeFormatter.ofPattern(dateFormat);
-		SimpleDateFormat sdf1 = new SimpleDateFormat(dateFormat);
-		try {
-			utilDate = sdf1.parse(dateValue.format(dtf1));
-		} catch (java.text.ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());	
-	
-		BeverageOrder beverageOrder=BeverageOrder.builder()
-				.goodId(5l)
-				.goodsBuyPrice(20)
-				.buyQuantity(1)
-				.orderDate(sqlDate).customerId("A124243295").build();
-		
-		beverageOrderDao.save(beverageOrder);
-		
-		return ResponseEntity.ok(null);
-	}
 
 }

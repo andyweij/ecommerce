@@ -46,7 +46,9 @@ private BeverageOrderDao beverageOrderDao;
 		beverageGoods=fronEndDao.queryGoodsDataByKeyAndrowNum(searchKeyword,rownum.get(0),rownum.get(1));
 		}		
 		ProductGoodsInfo productGoodsInfo=ProductGoodsInfo.builder().orderGoodList(beverageGoods).build();
-		genericPageable.setPagination(genericPageable.pagination(genericPageable,fronEndDao.queryGoodsData(searchKeyword).size() ));
+		int totalPages=genericPageable.totalPages(genericPageable, fronEndDao.queryGoodsData(searchKeyword).size());
+		genericPageable.setPagination(genericPageable.pagination(genericPageable,totalPages ));
+		genericPageable.setEndPage(totalPages);
 		productGoodsInfo.setGenericPageable(genericPageable);
 		
 		return productGoodsInfo;

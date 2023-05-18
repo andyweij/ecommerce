@@ -40,7 +40,6 @@ public class BackendService {
 	public GoodsDataInfo queryGoodsData(GoodsDataCondition condition, GenericPageable genericPageable) {
 
 		GoodsDataInfo goodsDataInfo = backEndDao.queryGoodsDatabyKey(condition, genericPageable);
-		goodsDataInfo.getGenericPageable().setPageDataSize(goodsDataInfo.getBeverageGoods().size());
 		return goodsDataInfo;
 	}
 
@@ -57,8 +56,10 @@ public class BackendService {
 		String startDate= condition.getStartDate();
 		String endDate= condition.getEndDate();		
 		int totalgoods=beverageOrderJpaDao.queryGoodsSales(startDate,endDate).size();
+		int totalPages=genericPageable.totalPages(genericPageable, totalgoods);
 		List<Integer> rownumList=genericPageable.rownum(genericPageable);
-		List<Integer> pagination=genericPageable.pagination(genericPageable,totalgoods);
+		List<Integer> pagination=genericPageable.pagination(genericPageable,totalPages);
+		genericPageable.setEndPage(totalPages);
 		genericPageable.setPagination(pagination);
 		List<GoodsOrderVo> queryGoodsSalesList=beverageOrderJpaDao.queryGoodsSalespages(startDate,endDate,rownumList.get(0),rownumList.get(1));
 		GoodsOrderListVo queryGoodsSales=GoodsOrderListVo.builder().goodsReportSalesList(queryGoodsSalesList).genericPageable(genericPageable).build();
@@ -74,7 +75,7 @@ public class BackendService {
 		if(null!=goodsVo.getFile()) {
 		MultipartFile file = goodsVo.getFile();
 		
-		Files.copy(file.getInputStream(), Paths.get("/home/VendingMachine/DrinksImage").resolve(goodsVo.getGoodsImageName()));
+		Files.copy(file.getInputStream(), Paths.get("/Users/andyweij/eclipse-workspace/Framework/ecommerce/src/main/webapp/DrinksImage").resolve(goodsVo.getGoodsImageName()));
 		}
 		return geverageGoods;
 	}

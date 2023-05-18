@@ -14,10 +14,10 @@ public class GenericPageable {
 	private int pageDataSize;// 每頁最大筆數
 	private int pagesIconSize;// 頁次數量
 	private List<Integer> pagination;
+	private int endPage;
 
-	public List<Integer> pagination(GenericPageable genericPageable, int goodscounts) {
+	public List<Integer> pagination(GenericPageable genericPageable, int totalPages) {
 		List<Integer> pagination = new ArrayList<>();
-		int totalPages = (int) Math.ceil((double) goodscounts / genericPageable.getPageDataSize());
 		int frontpages=genericPageable.getPagesIconSize()/2;
 		int behindPages=genericPageable.getPagesIconSize()-frontpages;
 		
@@ -40,6 +40,8 @@ public class GenericPageable {
 					pagination.add(i);
 				}
 			}		
+			
+			
 		return pagination;
 	}
 	public List<Integer> rownum(GenericPageable genericPageable){
@@ -49,5 +51,9 @@ public class GenericPageable {
 		rownum.add(StartNo);
 		rownum.add(EndNo);		
 		return rownum;
+	}
+	public int totalPages(GenericPageable genericPageable,int goodscounts) {
+		int totalPages=(int) Math.ceil((double) goodscounts / genericPageable.getPageDataSize());
+		return totalPages;
 	}
 }
