@@ -18,31 +18,43 @@ public class GenericPageable {
 
 	public List<Integer> pagination(GenericPageable genericPageable, int totalPages) {
 		List<Integer> pagination = new ArrayList<>();
-		int frontpages=genericPageable.getPagesIconSize()/2;
-		int behindPages=genericPageable.getPagesIconSize()-frontpages;
 		
-			if(genericPageable.getCurrentPageNo()-frontpages>0) {
-				for(int i=genericPageable.getCurrentPageNo()-frontpages;i<genericPageable.getCurrentPageNo();i++) {
-					pagination.add(i);
-				}
-			}else {
-				for(int i=1;i<genericPageable.getCurrentPageNo();i++) {
-					pagination.add(i);
-				}
-			}
-			if(genericPageable.getCurrentPageNo()+behindPages<totalPages) {
-			for(int i=genericPageable.getCurrentPageNo();i<=genericPageable.getCurrentPageNo()+behindPages;i++) {
+		if(genericPageable.getPagesIconSize()>=totalPages) {
+			for(int i=1;i<=totalPages;i++) {
 				pagination.add(i);
 			}
-				
+		}else {
+			int frontPages;
+			int behindPages;
+			if(genericPageable.getPagesIconSize()%2==0) {
+				frontPages=genericPageable.getPagesIconSize()/2-1;
+			behindPages=genericPageable.getPagesIconSize()/2;
 			}else {
-				for(int i=genericPageable.getCurrentPageNo();i<=totalPages;i++) {
+				frontPages=genericPageable.getPagesIconSize()/2;
+				behindPages=frontPages;
+			}
+			if(genericPageable.getCurrentPageNo()-frontPages>0&&genericPageable.getCurrentPageNo()+behindPages<=totalPages) {
+				for(int i=genericPageable.getCurrentPageNo()-frontPages;i<=genericPageable.getCurrentPageNo()+behindPages;i++) {
 					pagination.add(i);
 				}
-			}		
-			
-			
+			}else if(genericPageable.getCurrentPageNo()+frontPages>=totalPages&&genericPageable.getCurrentPageNo()!=totalPages) {
+				for(int i=genericPageable.getCurrentPageNo()-behindPages-(genericPageable.getCurrentPageNo()+frontPages-totalPages);i<=totalPages;i++) {
+					pagination.add(i);
+				}
+			}else if(genericPageable.getCurrentPageNo()==1||genericPageable.getCurrentPageNo()-frontPages==0) {
+				for(int i=1;i<=genericPageable.getPagesIconSize();i++) {
+					pagination.add(i);
+				}	
+			}else {
+				for(int i=totalPages-genericPageable.getPagesIconSize()+1;i<=totalPages;i++) {
+					pagination.add(i);
+				}
+			}
+
+		
+		}
 		return pagination;
+		
 	}
 	public List<Integer> rownum(GenericPageable genericPageable){
 		List<Integer> rownum=new ArrayList<>();

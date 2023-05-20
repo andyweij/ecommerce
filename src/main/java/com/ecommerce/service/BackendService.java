@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -89,22 +90,39 @@ public class BackendService {
 		return Goods;
 	}
 	
-	@Transactional
-	public BeverageGoods updateGoods(GoodsVo goodsVo) {
-		Optional<BeverageGoods> goodsInfo = backEndJpaDao.findById(goodsVo.getGoodsID());
-		
+	@Transactional(propagation = Propagation.REQUIRED)
+	public BeverageGoods updateGoods(GoodsVo goodsVo) throws IOException{
+		Optional<BeverageGoods> goodsInfo = backEndJpaDao.findById(goodsVo.getGoodsID());	
 		BeverageGoods beverageGoods=null;
 		if(goodsInfo.isPresent()) {
 			beverageGoods=goodsInfo.get();
+			if(null!=goodsVo.getGoodsName()) {
 			beverageGoods.setGoodsName(goodsVo.getGoodsName());
+			}
+			if(null!=(String.valueOf(goodsVo.getGoodsPrice()))) {
 			beverageGoods.setGoodsPrice(goodsVo.getGoodsPrice());
-			beverageGoods.setGoodsQuantity(goodsVo.getGoodsQuantity());
+			}
+			if(goodsVo.getGoodsQuantity()>=0) {
+			beverageGoods.setGoodsQuantity(beverageGoods.getGoodsQuantity()+goodsVo.getGoodsQuantity());
+			}
+			if(null!=goodsVo.getStatus()) {
 			beverageGoods.setStatus(goodsVo.getStatus());
+			}
+			if(null!=goodsVo.getDescription()) {
 			beverageGoods.setDESCRIPTION(goodsVo.getDescription());
-			beverageGoods.setGoodsImageName(goodsVo.getGoodsImageName());
-		}
-		
-		
+			}
+			if(null!=goodsVo.getFile()) {
+				MultipartFile file = goodsVo.getFile();	
+				Files.delete(Paths.get("/Users/andyweij/eclipse-workspace/Framework/ecommerce/src/main/webapp/DrinksImage").resolve(goodsInfo.get().getGoodsImageName()));
+				if(null==goodsVo.getGoodsImageName()) {
+				Files.copy(file.getInputStream(), Paths.get("/Users/andyweij/eclipse-workspace/Framework/ecommerce/src/main/webapp/DrinksImage").resolve(goodsVo.getFile().getOriginalFilename()));
+				beverageGoods.setGoodsImageName(goodsVo.getFile().getOriginalFilename());
+				}else{
+				Files.copy(file.getInputStream(), Paths.get("/Users/andyweij/eclipse-workspace/Framework/ecommerce/src/main/webapp/DrinksImage").resolve(goodsVo.getGoodsImageName()));
+				beverageGoods.setGoodsImageName(goodsVo.getGoodsImageName());
+				}					
+			}			
+		}		
 		return beverageGoods;
 	}
 }

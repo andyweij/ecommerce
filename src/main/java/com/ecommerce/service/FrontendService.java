@@ -80,20 +80,27 @@ private BeverageOrderDao beverageOrderDao;
 						
 					BeverageOrder beverageOrder = BeverageOrder.builder().goodId(dbGoods.getGoodsId())
 							.goodsBuyPrice(dbGoods.getGoodsPrice()).buyQuantity(goodIds.get(dbGoods.getGoodsId())).orderDate(sqlDate)
-							.customerId("A124243295").build();
+							.customerId(sessionMemberInfo.getIdentificationNo()).build();
 					beverageOrderList.add(beverageOrder);
+					
 					buyGoodsList.add(dbGoods);
-			}else if(dbGoods.getGoodsQuantity()<goodIds.get(dbGoods.getGoodsId())&&dbGoods.getGoodsQuantity()!=0) {
-				dbGoods.setGoodsQuantity(0);
+			}else if(dbGoods.getGoodsQuantity()<goodIds.get(dbGoods.getGoodsId()) && dbGoods.getGoodsQuantity()!=0) {
 					BeverageOrder beverageOrder = BeverageOrder.builder().goodId(dbGoods.getGoodsId())
 							.goodsBuyPrice(dbGoods.getGoodsPrice()).buyQuantity(dbGoods.getGoodsQuantity()).orderDate(sqlDate)
-							.customerId("A124243295").build();
+							.customerId(sessionMemberInfo.getIdentificationNo()).build();
+					goodIds.replace(dbGoods.getGoodsId(), dbGoods.getGoodsQuantity());
+					dbGoods.setGoodsQuantity(0);
 					beverageOrderList.add(beverageOrder);
-					buyGoodsList.add(dbGoods);
+					buyGoodsList.add(dbGoods);					
 			}			
 		}
 		fronEndDao.saveAll(buyGoodsList);
 		beverageOrderDao.saveAll(beverageOrderList);
+		for(BeverageGoods good : buyGoodsList) {
+			if(goodIds.containsKey(good.getGoodsId())) {
+				good.setGoodsQuantity(goodIds.get(good.getGoodsId()));
+			}
+		}
 		customer.setCusName(sessionMemberInfo.getCustomerName());
 		CheckoutCompleteInfo checkoutCompleteInfo=CheckoutCompleteInfo.builder()
 				.customer(customer)
