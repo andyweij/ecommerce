@@ -29,6 +29,7 @@ import com.ecommerce.vo.OrderCustomer;
 import com.ecommerce.vo.ProductGoodsInfo;
 import io.swagger.annotations.ApiOperation;
 
+@CrossOrigin(origins = {"http://localhost:3000","http://localhost:8086"}, allowCredentials = "true")
 @RestController
 @RequestMapping("/ecommerce/FrontendController")
 public class FrontendController {
@@ -54,7 +55,8 @@ public class FrontendController {
 	@GetMapping(value = "/queryGoodsData")
 	public ResponseEntity<ProductGoodsInfo> queryGoodsData(@RequestParam(required = false) String searchKeyword,
 			 @RequestParam int currentPageNo, @RequestParam int pageDataSize, @RequestParam int pagesIconSize) {
-	
+		logger.info("HttpSession checkoutGoods:" + httpSession.getId());
+		logger.info("CheckoutGoods:" + sessionMemberInfo.toString());
 		GenericPageable genericPageable = GenericPageable.builder().currentPageNo(currentPageNo)
 				.pageDataSize(pageDataSize).pagesIconSize(pagesIconSize).build();
 		

@@ -1,6 +1,7 @@
 package com.ecommerce.service;
 
 import java.io.IOException;
+import java.nio.file.CopyOption;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -76,7 +77,7 @@ public class BackendService {
 		if(null!=goodsVo.getFile()) {
 		MultipartFile file = goodsVo.getFile();
 		
-		Files.copy(file.getInputStream(), Paths.get("/Users/andyweij/eclipse-workspace/Framework/ecommerce/src/main/webapp/DrinksImage").resolve(goodsVo.getGoodsImageName()));
+		Files.copy(file.getInputStream(), Paths.get("/Users/andyweij/eclipse-workspace/Framework/ecommerce/target/classes/static/DrinksImage").resolve(goodsVo.getGoodsImageName()));
 		}
 		return geverageGoods;
 	}
@@ -112,13 +113,15 @@ public class BackendService {
 			beverageGoods.setDESCRIPTION(goodsVo.getDescription());
 			}
 			if(null!=goodsVo.getFile()) {
-				MultipartFile file = goodsVo.getFile();	
-				Files.delete(Paths.get("/Users/andyweij/eclipse-workspace/Framework/ecommerce/src/main/webapp/DrinksImage").resolve(goodsInfo.get().getGoodsImageName()));
+				MultipartFile file = goodsVo.getFile();
+				if(Files.exists(Paths.get("/Users/andyweij/eclipse-workspace/Framework/ecommerce/target/classes/static/DrinksImage").resolve(goodsInfo.get().getGoodsImageName()) )) {
+				Files.delete(Paths.get("/Users/andyweij/eclipse-workspace/Framework/ecommerce/target/classes/static/DrinksImage").resolve(goodsInfo.get().getGoodsImageName()));
+				}
 				if(null==goodsVo.getGoodsImageName()) {
-				Files.copy(file.getInputStream(), Paths.get("/Users/andyweij/eclipse-workspace/Framework/ecommerce/src/main/webapp/DrinksImage").resolve(goodsVo.getFile().getOriginalFilename()));
+				Files.copy(file.getInputStream(), Paths.get("/Users/andyweij/eclipse-workspace/Framework/ecommerce/target/classes/static/DrinksImage").resolve(goodsVo.getFile().getOriginalFilename()));
 				beverageGoods.setGoodsImageName(goodsVo.getFile().getOriginalFilename());
 				}else{
-				Files.copy(file.getInputStream(), Paths.get("/Users/andyweij/eclipse-workspace/Framework/ecommerce/src/main/webapp/DrinksImage").resolve(goodsVo.getGoodsImageName()));
+				Files.copy(file.getInputStream(), Paths.get("/Users/andyweij/eclipse-workspace/Framework/ecommerce/target/classes/static/DrinksImage").resolve(goodsVo.getGoodsImageName()));
 				beverageGoods.setGoodsImageName(goodsVo.getGoodsImageName());
 				}					
 			}			

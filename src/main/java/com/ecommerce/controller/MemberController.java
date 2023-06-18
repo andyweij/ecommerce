@@ -25,6 +25,7 @@ import com.ecommerce.vo.GoodsVo;
 import com.ecommerce.vo.MemberInfo;
 import io.swagger.annotations.ApiOperation;
 
+@CrossOrigin(origins = {"http://localhost:3000","http://localhost:8086"}, allowCredentials = "true")
 @RestController
 @RequestMapping("/ecommerce/MemberController")
 public class MemberController {
@@ -128,6 +129,8 @@ public class MemberController {
 			  "goodsQuantity": 16
 			}
 		 */
+		logger.info("HttpSession checkLogin:" + httpSession.getId());
+		logger.info("CheckLogin:" + sessionMemberInfo.toString());
 		if(cartGoods.contains(goodsVo)) {
 			cartGoods.get(cartGoods.indexOf(goodsVo)).setGoodsQuantity(cartGoods.get(cartGoods.indexOf(goodsVo)).getGoodsQuantity()+goodsVo.getGoodsQuantity());
 		}else {
@@ -140,7 +143,8 @@ public class MemberController {
 	@ApiOperation(value = "查尋購物車商品")
 	@GetMapping(value = "/queryCartGoods")
 	public ResponseEntity<List<GoodsVo>> queryCartGoods() {
-
+		logger.info("HttpSession checkLogin:" + httpSession.getId());
+		logger.info("CheckLogin:" + sessionMemberInfo.toString());
 		return ResponseEntity.ok(cartGoods);
 	}
 	

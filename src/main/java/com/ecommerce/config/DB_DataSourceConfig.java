@@ -17,10 +17,10 @@ public class DB_DataSourceConfig {
       return DataSourceBuilder.create().build();
    }
    
-   @Bean(name = "mysql")
-   @ConfigurationProperties(prefix = "springboot.datasource.mysql")
-   public DataSource postgreDataSourceBackend() {
-      return DataSourceBuilder.create().build();
-   }
+//   @Bean(name = "mysql")
+//   @ConfigurationProperties(prefix = "springboot.datasource.mysql")
+//   public DataSource postgreDataSourceBackend() {
+//      return DataSourceBuilder.create().build();
+//   }
 
 }

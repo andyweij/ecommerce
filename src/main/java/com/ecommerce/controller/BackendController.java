@@ -25,7 +25,7 @@ import com.ecommerce.vo.GoodsVo;
 
 import io.swagger.annotations.ApiOperation;
 
-@CrossOrigin
+@CrossOrigin(origins = {"http://localhost:3000","http://localhost:8086"}, allowCredentials = "true")
 @RestController
 @RequestMapping("/ecommerce/BackendController")
 public class BackendController {

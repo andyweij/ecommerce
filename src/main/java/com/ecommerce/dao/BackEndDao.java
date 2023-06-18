@@ -48,9 +48,11 @@ public class BackEndDao {
 	        Predicate endPrice = cb.lessThan(beverageGoods.get("goodsPrice"), condition.getEndPrice());
 	        condi.add(endPrice);
 	        }
-	       
-	        Predicate status = cb.equal(beverageGoods.get("status"), condition.getStatus());
-	        condi.add(status);
+	        if(condition.getStatus().equals("1")||condition.getStatus().equals("0")) {
+	        	Predicate status = cb.equal(beverageGoods.get("status"), condition.getStatus());
+		        condi.add(status);
+	        }
+	        
 	        
 	        if(null!=condition.getQuantity()) {
 	        Predicate quantity = cb.lessThan(beverageGoods.get("goodsQuantity"), condition.getQuantity());
@@ -84,17 +86,20 @@ public class BackEndDao {
 	        // 組合查尋條件
 	        Order order=null;
 	      	// 排序  ORDER BY
-	        if(condition.getStatus()=="1") {
-	        	order = cb.desc(beverageGoods.get("goodsPrice")); 
-	        }else if(condition.getStatus()=="0"){
+	        if(null==condition.getPriceSort()) {
+	        	order =cb.asc(beverageGoods.get("goodsId")); 
+	        }else if(condition.getPriceSort().equals("0")){
 	        	order = cb.asc(beverageGoods.get("goodsPrice"));
-	        }else {
-	        	order =cb.asc(beverageGoods.get("goodsId"));
+	        }else if(condition.getPriceSort().equals("1")){
+	        	order = cb.desc(beverageGoods.get("goodsPrice"));
 	        }	        
 	        // 放入全部查詢條件
 	        // PS:select(storeInfo)可省略
+	        if(condi.size()==0) {
+	        	 cq.select(beverageGoods).orderBy(order);
+	        }else{
 	        cq.select(beverageGoods).where(restriction).orderBy(order);
-	        	        
+	        }       
 	        // 執行查詢
 	        TypedQuery<BeverageGoods> queryTotalgoodscount =entityManager.createQuery(cq);//查詢總筆數
 	        int goodsamount=GoodsDataInfo.builder().beverageGoods(queryTotalgoodscount.getResultList()).build().getBeverageGoods().size();
